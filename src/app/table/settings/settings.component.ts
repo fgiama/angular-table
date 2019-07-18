@@ -39,4 +39,9 @@ export class SettingsComponent implements OnInit {
     this.router.navigate(['table']);
   }
 
+  resetSettings(): void {
+    localStorage.removeItem("appSettings");
+    this.appSettings = new AppSettings(); 
+  }
+
 }
