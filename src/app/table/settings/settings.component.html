@@ -1,0 +1,48 @@
+<p-toolbar>
+  <div class="ui-toolbar-group-left">
+      <button pButton type="button" label="Show Table" icon="pi pi-check" class="ui-button-success" (click)="showTable()"></button>
+  </div>
+  
+  <div class="ui-toolbar-group-right">
+  </div>
+</p-toolbar>
+
+<div>
+    <p-fieldset legend="Settings">
+    <div class="row">
+      <div class="col-md-3">
+        <h5>Lazy</h5>
+        <p-inputSwitch [(ngModel)]="appSettings.lazyMode"></p-inputSwitch>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3">
+          <h5>Paging</h5>
+          <p-inputSwitch [(ngModel)]="appSettings.showPaging"></p-inputSwitch>
+      </div>
+      <div class="col-md-3">
+        <h5>Sorting</h5>
+        <p-inputSwitch [(ngModel)]="appSettings.showSorting"></p-inputSwitch>
+      </div>
+      <div class="col-md-3">
+          <h5>Global Filtering</h5>
+          <p-inputSwitch [(ngModel)]="appSettings.showGlobalFiltering"></p-inputSwitch>
+        </div>
+        <div class="col-md-3">
+          <h5>Column Filtering</h5>
+          <p-inputSwitch [(ngModel)]="appSettings.showColumnFiltering"></p-inputSwitch>
+        </div>
+    </div>
+   
+    <div class="row">
+        <div class="col-md-3">
+          <h5>Export</h5>
+          <p-inputSwitch [(ngModel)]="appSettings.showExport"></p-inputSwitch>
+        </div>
+        <div class="col-md-3">
+          <h5>Sticky-Header</h5>
+          <p-inputSwitch [(ngModel)]="appSettings.hasStickyHeader"></p-inputSwitch>
+        </div>
+      </div>
+  </p-fieldset>   
+</div>
