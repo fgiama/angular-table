@@ -12,8 +12,8 @@ import { Countries } from '../entities/countries';
 })
 export class DataStoreService {
 
-  apiurl = 'https://restcountries.eu/rest/v2/all';
-  lazyUrl = 'lazy';
+  apiurl = 'https://localhost:44383/api/countries';
+  lazyUrl = '/lazy';
 
   constructor(private http: HttpClient) {
   }
@@ -27,7 +27,7 @@ export class DataStoreService {
     return this.getAllCountries();
   }
 
-  getDataLazy(first: number, rows: number, sortField: string, sortOrder:number, filters:any): Countries {
+  getDataLazy(first: number, rows: number, sortField: string, sortOrder:number, filters:any):  Observable<Countries> {
     return this.getCountries(first, rows, sortField, sortOrder, filters);
   }
 
@@ -35,27 +35,40 @@ export class DataStoreService {
   {
     return this.http.get<any>(this.apiurl).pipe(
       tap(data => console.log(data)),
-      map(data => this.transformDataToCountries(data)),
+      map(data => this.transformDataToCountryList(data)),
       catchError(this.handleError)
     );
   }
 
-  getCountries(first: number, rows: number, sortField: string, sortOrder:number, filters:any): Countries
+  getCountries(first: number, rows: number, sortField: string, sortOrder:number, filters:any): Observable<Countries>
   {
-    var allCountries: Country[] = [];
-    var requestedCountryList: Country[] = [];
-    this.getAllCountries().subscribe(data => { allCountries = data; });
+    var model = { 'First': first, 'Rows': rows, 'SortField': sortField, 'SortOrder': sortOrder, 'Filters': filters };
 
-    //TODO: page and filter
-    return new Countries(requestedCountryList, allCountries.length);
+    return this.http.post<any>(this.apiurl + this.lazyUrl, model).pipe(
+      tap(data => console.log(data)),
+      map(data => this.transformDataToCountries(data)),
+      catchError(this.handleError)
+    );
+
   }
 
-  transformDataToCountries(data: any): Country[] {
+  transformDataToCountryList(data: any): Country[] {
     var list: Country[] = [];
 
     data.forEach(element => {
-      list.push(new Country(element["alpha2Code"], element["name"], element["capital"], element["region"], element["population"]))
+      list.push(new Country(element["id"], element["name"], element["capital"], element["region"], element["population"]))
     });
     return list;
+  }
+
+  transformDataToCountries(data: any): Countries {
+    var list: Country[] = [];
+
+    data.list.forEach(element => {
+      list.push(new Country(element["id"], element["name"], element["capital"], element["region"], element["population"]))
+    });
+
+    var response = new Countries(list, data.totalRecords);
+    return response;
   }
 }

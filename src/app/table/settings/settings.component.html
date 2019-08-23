@@ -9,41 +9,70 @@
 </p-toolbar>
 
 <div>
-    <p-fieldset legend="Settings">
+  <p-fieldset legend="Settings">
     <div class="row">
-      <div class="col-md-3">
+      <div class="col-md-6">
         <h5>Lazy</h5>
-        <p-inputSwitch [(ngModel)]="appSettings.lazyMode"></p-inputSwitch>
+      </div>
+      <div class="col-md-6">
+        <p-inputSwitch [(ngModel)]="appSettings.lazyMode" (onChange)="handleLazyChange($event)"></p-inputSwitch>
       </div>
     </div>
     <div class="row">
-      <div class="col-md-3">
-          <h5>Paging</h5>
-          <p-inputSwitch [(ngModel)]="appSettings.showPaging"></p-inputSwitch>
+      <div class="col-md-6">
+        <h5>Paging</h5>
       </div>
-      <div class="col-md-3">
+      <div class="col-md-6">
+        <p-inputSwitch [(ngModel)]="appSettings.showPaging" [disabled]="!pagingEnabled"></p-inputSwitch>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
         <h5>Sorting</h5>
+      </div>
+      <div class="col-md-6">
         <p-inputSwitch [(ngModel)]="appSettings.showSorting"></p-inputSwitch>
       </div>
-      <div class="col-md-3">
-          <h5>Global Filtering</h5>
-          <p-inputSwitch [(ngModel)]="appSettings.showGlobalFiltering"></p-inputSwitch>
-        </div>
-        <div class="col-md-3">
-          <h5>Column Filtering</h5>
-          <p-inputSwitch [(ngModel)]="appSettings.showColumnFiltering"></p-inputSwitch>
-        </div>
     </div>
-   
     <div class="row">
-        <div class="col-md-3">
-          <h5>Export</h5>
-          <p-inputSwitch [(ngModel)]="appSettings.showExport"></p-inputSwitch>
-        </div>
-        <div class="col-md-3">
-          <h5>Sticky-Header</h5>
-          <p-inputSwitch [(ngModel)]="appSettings.hasStickyHeader"></p-inputSwitch>
-        </div>
+      <div class="col-md-6">
+        <h5>Global Filtering</h5>
       </div>
+      <div class="col-md-6">
+        <p-inputSwitch [(ngModel)]="appSettings.showGlobalFiltering"></p-inputSwitch>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <h5>Column Filtering</h5>
+      </div>
+      <div class="col-md-6">
+        <p-inputSwitch [(ngModel)]="appSettings.showColumnFiltering"></p-inputSwitch>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <h5>Export</h5>
+      </div>
+      <div class="col-md-6">
+        <p-inputSwitch [(ngModel)]="appSettings.showExport"></p-inputSwitch>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <h5>Sticky-Header</h5>
+      </div>
+      <div class="col-md-6">
+        <p-inputSwitch [(ngModel)]="appSettings.hasStickyHeader"></p-inputSwitch>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <h5>State</h5>
+      </div>
+      <div class="col-md-6">
+          <p-dropdown [options]="states" [(ngModel)]="selectedState" placeholder="Select State"></p-dropdown>
+      </div>
+    </div>
   </p-fieldset>   
 </div>

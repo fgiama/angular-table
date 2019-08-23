@@ -10,6 +10,8 @@ import { ToolbarModule } from 'primeng/toolbar';
 import { FieldsetModule } from 'primeng/fieldset';
 import { DataStoreService } from '../services/dataStore.service';
 import { InputTextModule } from 'primeng/inputtext';
+import { DropdownModule } from 'primeng/dropdown';
+import { SettingService } from '../services/setting.service';
 
 @NgModule({
   declarations: [MyTableComponent, SettingsComponent],
@@ -21,8 +23,9 @@ import { InputTextModule } from 'primeng/inputtext';
     FormsModule,
     ButtonModule,
     TableModule,
-    InputTextModule
+    InputTextModule,
+    DropdownModule
   ],
-  providers: [DataStoreService]
+  providers: [DataStoreService, SettingService ]
 })
 export class MyTableModule { }

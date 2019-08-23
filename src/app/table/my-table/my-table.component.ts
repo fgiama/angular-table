@@ -3,6 +3,7 @@ import { LazyLoadEvent } from 'primeng/api';
 import { DataStoreService } from 'src/app/services/dataStore.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AppSettings } from 'src/app/entities/appSettings';
+import { SettingService } from 'src/app/services/setting.service';
 
 @Component({
   selector: 'app-my-table',
@@ -18,7 +19,7 @@ export class MyTableComponent implements OnInit {
   tableSettings: AppSettings;
   loading: boolean;
 
-  constructor(private dataStore: DataStoreService, private router: Router) { }
+  constructor(private dataStore: DataStoreService, private settingService: SettingService, private router: Router) { }
 
   ngOnInit() { 
     this.loadSettings();
@@ -28,9 +29,15 @@ export class MyTableComponent implements OnInit {
   }
 
   loadSettings() {
-    this.tableSettings = JSON.parse(localStorage.getItem('appSettings'));
-    if(!this.tableSettings) //initialize with default settings
+    this.tableSettings = this.settingService.getStoredSettings();
+    if(this.tableSettings)
     {
+      if(!this.tableSettings.needStorage)
+      {
+        this.settingService.resetTableStorage("");
+      }
+    }
+    else { //initialize with default settings
       this.tableSettings = new AppSettings(); 
       this.tableSettings.showColumnFiltering = false;
       this.tableSettings.lazyMode = false;
@@ -41,6 +48,7 @@ export class MyTableComponent implements OnInit {
       this.tableSettings.hasStickyHeader = false;
       this.tableSettings.stateKey = "statedemo-session";
       this.tableSettings.stateStorage = "session";
+      this.tableSettings.needStorage = false;
     }
   }
 
@@ -65,12 +73,16 @@ export class MyTableComponent implements OnInit {
   
   loadRowsLazy(event: LazyLoadEvent) {
     this.loading = true;
-    setTimeout(() => {
-      var countries = this.dataStore.getDataLazy(event.first, event.rows, event.sortField, event.sortOrder, event.filters);
-      this.totalRecords = countries.totalRecords;
-      this.list = countries.list;
+    this.tableSettings = this.settingService.getStoredSettings();
+   
+    this.dataStore.getDataLazy(event.first, event.rows, event.sortField, event.sortOrder, event.filters)
+    .subscribe(data => {
+      this.totalRecords = data.totalRecords;
+      this.list = data.list;
       this.loading = false;
-    }, 1000);
+    });
+     
+    
   }
 
   showSettings(): void

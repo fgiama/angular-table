@@ -8,7 +8,8 @@
 </p-toolbar>
 <p-table #dt [columns]="cols" [value]="list" dataKey="id" editMode="row" selectionMode="single" [(selection)]="selectedItem" 
 (onRowSelect)="onRowSelect($event)" [lazy]="tableSettings.lazyMode" [totalRecords]="totalRecords" [loading]="loading" (onLazyLoad)="loadRowsLazy($event)" 
-[paginator]="tableSettings.showPaging" paginatorPosition="both" [rows]="10" [stateStorage]="tableSettings.stateStorage" [stateKey]="tableSettings.stateKey">
+[paginator]="tableSettings.showPaging" paginatorPosition="both" [rows]="10" 
+[stateStorage]="tableSettings.stateStorage" [stateKey]="tableSettings.stateKey">
     <ng-template pTemplate="caption">
             <div class="ui-helper-clearfix">
                 <button type="button" pButton icon="pi pi-plus" (click)="showDialogToAdd()" label="Add" style="float:left"></button>
@@ -30,13 +31,13 @@
         <!-- Column Filters (available: text, select, multi, boolean, date) -->
         <tr *ngIf="tableSettings.showColumnFiltering" >
             <th *ngFor="let col of columns" [ngSwitch]="col.filter">
-                <input *ngSwitchCase="'text'" pInputText type="text" style="width:100%" (input)="dt.filter($event.target.value, col.field, 'contains')">
+                <input *ngSwitchCase="'text'" pInputText type="text" style="width:100%" (input)="dt.filter($event.target.value, col.field, 'contains')" [value]="dt.filters[col.field]?.value">
             </th>
             <th></th>
         </tr>
    
     </ng-template>
- <ng-template pTemplate="body" let-rowData let-columns="columns" let-editing="editing" let-ri="rowIndex">
+    <ng-template pTemplate="body" let-rowData let-columns="columns" let-editing="editing" let-ri="rowIndex">
         <tr [pEditableRow]="rowData">
             <td *ngFor="let col of columns">
                 <p-cellEditor>

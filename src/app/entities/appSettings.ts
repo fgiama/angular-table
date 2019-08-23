@@ -6,6 +6,7 @@ export class AppSettings {
     lazyMode: boolean;
     showSorting: boolean;
     hasStickyHeader: boolean;
-    stateStorage: string = "session";
-    stateKey: string ="statedemo-session";
+    stateStorage: string;
+    stateKey: string;
+    needStorage: boolean;
 }
